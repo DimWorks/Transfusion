@@ -16,7 +16,7 @@ void printRes()
 	if (tran.tara == 0)
 	{
 		printf("\nИскомое значение(%d) оказалось в базавом сосуде, через %d переливаний\nАлгоритм переливаний: ", tran.val, tran.inc);
-		for (int i = 0; i < MAX_NUM_OF_TRAN; i++)
+		for (int i = 0; i < tran.inc; i++)
 		{
 			printf("%c ", tran.trans[i]);
 		}
@@ -24,7 +24,7 @@ void printRes()
 	else if (tran.tara == 1)
 	{
 		printf("\nИскомое значение(%d) оказалось в большом сосуде, через %d переливаний\n", tran.val, tran.inc);
-		for (int i = 0; i < MAX_NUM_OF_TRAN; i++)
+		for (int i = 0; i < tran.inc; i++)
 		{
 			printf("%c ", tran.trans[i]);
 		}
@@ -32,7 +32,7 @@ void printRes()
 	else if (tran.tara == 2)
 	{
 		printf("\nИскомое значение(%d) оказалось в маленьком сосуде, через %d переливаний\n", tran.val, tran.inc);
-		for (int i = 0; i < MAX_NUM_OF_TRAN; i++)
+		for (int i = 0; i < tran.inc; i++)
 		{
 			printf("%c ", tran.trans[i]);
 		}
@@ -40,16 +40,22 @@ void printRes()
 	}
 }
 
-void transfusion(const int baseVal, const int bigVal, const int smallVal, const int base, const int big, const int small, int inc, const int disVal)
+int transfusion(const int baseVal, const int bigVal, const int smallVal, const int base, const int big, const int small, int inc, const int disVal)
 {
 	if (base == disVal) 
 	{ 
 		tran.val = base; 
 		tran.inc = inc;
 		tran.tara = 0;
-		printRes();
-		printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-		exit(0);
+		if (inc == 5)
+		{
+
+			printRes();
+			printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+			return inc;
+		}
+		
+		//exit(0);
 	}
 	else if (big == disVal) 
 	{  
@@ -58,7 +64,7 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 		tran.tara = 1;
 		printRes();
 		printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-		exit(0);
+		//exit(0);
 	}
 	else if (small == disVal) 
 	{ 
@@ -67,12 +73,12 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 		tran.tara = 2;
 		printRes();
 		printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-		exit(0);
+		//exit(0);
 	}
 	else if (inc < MAX_NUM_OF_TRAN)
 	{
-//-----------------------------------------------FROM BASE TO BIG(1)--------------------------------------------------------------
-		if ((base + big - bigVal) <= bigVal && (base + big - bigVal) >= (0 - bigVal) && base != 0 && big != bigVal)																				// Если базовый сосуд может вместить содержимое маленького сосуда
+//------------------------------------------------FROM BASE TO BIG(1)--------------------------------------------------------------
+		if ((base + big - bigVal) <= bigVal && (base + big - bigVal) >= (0 - bigVal) && base != 0 && big != bigVal)// && tran.trans[inc - 1] != '1')
 		{
 			int tmp = (base + big) - bigVal;
 			if (tmp > 0)
@@ -83,12 +89,12 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 			else
 			{
 				tran.trans[inc] = '1';
-				transfusion(baseVal, bigVal, smallVal, 0, bigVal, small, inc + 1, disVal);
+				transfusion(baseVal, bigVal, smallVal, 0, big + base, small, inc + 1, disVal);
 			}
-			printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+			//printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
 		}
 //----------------------------------------------FROM BASE TO SMALL(2)-------------------------------------------------------------
-		if ((base + small - smallVal) <= smallVal && (base + small - smallVal) >= (0 - smallVal) && base != 0 && small != smallVal)																				// Если базовый сосуд может вместить содержимое маленького сосуда
+		if ((base + small - smallVal) <= smallVal && (base + small - smallVal) >= (0 - smallVal) && base != 0 && small != smallVal)			
 		{
 			int tmp = (base + small) - smallVal;
 			if (tmp > 0)
@@ -99,7 +105,7 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 			else
 			{
 				tran.trans[inc] = '2';
-				transfusion(baseVal, bigVal, smallVal, 0, big, smallVal, inc + 1, disVal);
+				transfusion(baseVal, bigVal, smallVal, 0, big, small + base, inc + 1, disVal);
 			}
 		}
 //-----------------------------------------------FROM BIG TO BASE(3)---------------------------------------------------------------
@@ -114,12 +120,12 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 			else
 			{
 				tran.trans[inc] = '3';
-				transfusion(baseVal, bigVal, smallVal, baseVal, 0, small, inc + 1, disVal);
+				transfusion(baseVal, bigVal, smallVal, base+big, 0, small, inc + 1, disVal);
 			}
 
 		}
 //-----------------------------------------------FROM BIG TO SMALL(4)--------------------------------------------------------------
-		if ((big + small - smallVal) <= smallVal && (big + small - smallVal) >= (0 - smallVal) && big != 0 && small != smallVal)
+		if ((big + small - smallVal) <= smallVal && (big + small - smallVal) >= (0 - smallVal) && big != 0)// && small != smallVal)
 		{
 			int tmp = (big + small - smallVal);
 			if (tmp > 0)
@@ -130,7 +136,7 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 			else
 			{
 				tran.trans[inc] = '4';
-				transfusion(baseVal, bigVal, smallVal, base, 0, smallVal, inc + 1, disVal);				
+				transfusion(baseVal, bigVal, smallVal, base, 0, small + big, inc + 1, disVal);				
 			}
 			
 		}
@@ -146,14 +152,28 @@ void transfusion(const int baseVal, const int bigVal, const int smallVal, const 
 			else
 			{
 				tran.trans[inc] = '5';
-				transfusion(baseVal, bigVal, smallVal, baseVal, big, 0, inc + 1, disVal);
+				transfusion(baseVal, bigVal, smallVal, base + small, big, 0, inc + 1, disVal);
 			}
 
+		}
+//-----------------------------------------------FROM SMALL TO BIG(6)---------------------------------------------------------------
+		if ((small + big - bigVal) <= bigVal && (small + big - bigVal) >= (0 - bigVal) && small != 0 && big != bigVal)
+		{
+			int tmp = (small + big - bigVal);
+			if (tmp > 0)
+			{
+				tran.trans[inc] = '6';
+				transfusion(baseVal, bigVal, smallVal, base, bigVal, tmp, inc + 1, disVal);
+			}
+			else
+			{
+				tran.trans[inc] = '6';
+				transfusion(baseVal, bigVal, smallVal, base, big + small, 0, inc + 1, disVal);
+			}
 		}
 	}
 	else
 	{
-		tran.trans[inc] = '0';
 		//printf("\nРешения нет\n");
 	}
 
@@ -178,7 +198,7 @@ int main()
 	int base = 0, big = 0, small = 0;
 
 	int first = 8, second = 5, third = 3;
-	//int first = 16, second = 11, third = 6;
+	//int first = 12, second = 8, third = 5;
 
 	//Выделим базовый, большой и маленький сосуды
 
@@ -245,10 +265,9 @@ int main()
 	else
 	{
 		tran.trans[inc] = '1';
-		transfusion(base, big, small, base - big, big, 0, inc+1, disVal);
+		transfusion(base, big, small, base - big, big, 0, inc + 1, disVal);
 		tran.trans[inc] = '2';
-		transfusion(base, big, small, base - small, 0, small, inc+1, disVal);
+		//transfusion(base, big, small, base - small, 0, small, inc+1, disVal);
 		
 	}
-
 }
