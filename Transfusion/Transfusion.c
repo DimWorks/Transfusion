@@ -24,32 +24,34 @@ bool isStop(int base, int big, int small, int inc, const int disVal)
 [
 	if (base == disVal)
 	{
-		tran.val = base;
-		tran.inc = inc;
-		tran.tara = 0;
-		if (inc == 5)
-		{
-
-			printRes();
-			printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-			return inc;
-		}
+		//tran.val = base;
+		//tran.inc = inc;
+		//tran.tara = 0;
+		//if (inc == 5)
+		//{
+		//	printRes();
+		//	printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+		//	return true;
+		//}
+		return true;
 	}
 	else if (big == disVal)
 	{
-		tran.val = big;
-		tran.inc = inc;
-		tran.tara = 1;
-		printRes();
-		printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+		//tran.val = big;
+		//tran.inc = inc;
+		//tran.tara = 1;
+		//printRes();
+		//printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+		return true;
 	}
 	else if (small == disVal)
 	{
-		tran.val = small;
-		tran.inc = inc;
-		tran.tara = 2;
-		printRes();
-		printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+		//tran.val = small;
+		//tran.inc = inc;
+		//tran.tara = 2;
+		//printRes();
+		//printf("\n%d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
+		return true;
 	}
 ]
 
