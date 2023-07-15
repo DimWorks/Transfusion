@@ -267,7 +267,6 @@ int main()
 		tran.trans[inc] = '1';
 		transfusion(base, big, small, base - big, big, 0, inc + 1, disVal);
 		tran.trans[inc] = '2';
-		//transfusion(base, big, small, base - small, 0, small, inc+1, disVal);
-		
+		//transfusion(base, big, small, base - small, 0, small, inc+1, disVal);		
 	}
 }
