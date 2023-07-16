@@ -2,185 +2,7 @@
 #include <locale.h>
 #include "transfusion.h"
 
-#define MAX_NUM_OF_TRAN 10
-
-//struct tran
-//{
-//	int val;
-//	int inc;
-//	int tara;
-//	char trans[MAX_NUM_OF_TRAN];
-//} tran;
-//
-//void printRes()
-//{
-//	if (tran.tara == 0)
-//	{
-//		printf("\nИскомое значение(%d) оказалось в базавом сосуде, через %d переливаний\nАлгоритм переливаний: ", tran.val, tran.inc);
-//		for (int i = 0; i < tran.inc; i++)
-//		{
-//			printf("%c ", tran.trans[i]);
-//		}
-//	}
-//	else if (tran.tara == 1)
-//	{
-//		printf("\nИскомое значение(%d) оказалось в большом сосуде, через %d переливаний\n", tran.val, tran.inc);
-//		for (int i = 0; i < tran.inc; i++)
-//		{
-//			printf("%c ", tran.trans[i]);
-//		}
-//	}
-//	else if (tran.tara == 2)
-//	{
-//		printf("\nИскомое значение(%d) оказалось в маленьком сосуде, через %d переливаний\n", tran.val, tran.inc);
-//		for (int i = 0; i < tran.inc; i++)
-//		{
-//			printf("%c ", tran.trans[i]);
-//		}
-//		printf("\n");
-//	}
-//}
-//
-//int transfusion(const int baseVal, const int bigVal, const int smallVal, const int base, const int big, const int small, int inc, const int disVal)
-//{
-//	if (base == disVal) 
-//	{ 
-//		tran.val = base; 
-//		tran.inc = inc;
-//		tran.tara = 0;
-//		if (inc == 5)
-//		{
-//
-//			printRes();
-//			printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-//			return inc;
-//		}
-//		
-//		//exit(0);
-//	}
-//	else if (big == disVal) 
-//	{  
-//		tran.val = big;
-//		tran.inc = inc;
-//		tran.tara = 1;
-//		printRes();
-//		printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-//		//exit(0);
-//	}
-//	else if (small == disVal) 
-//	{ 
-//		tran.val = small;
-//		tran.inc = inc;
-//		tran.tara = 2;
-//		printRes();
-//		printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-//		//exit(0);
-//	}
-//	else if (inc < MAX_NUM_OF_TRAN)
-//	{
-////------------------------------------------------FROM BASE TO BIG(1)--------------------------------------------------------------
-//		if ((base + big - bigVal) <= bigVal && (base + big - bigVal) >= (0 - bigVal) && base != 0 && big != bigVal)// && tran.trans[inc - 1] != '1')
-//		{
-//			int tmp = (base + big) - bigVal;
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '1';
-//				transfusion(baseVal, bigVal, smallVal, tmp, bigVal, small, inc + 1, disVal);
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '1';
-//				transfusion(baseVal, bigVal, smallVal, 0, big + base, small, inc + 1, disVal);
-//			}
-//			//printf("\nAAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-//		}
-////----------------------------------------------FROM BASE TO SMALL(2)-------------------------------------------------------------
-//		if ((base + small - smallVal) <= smallVal && (base + small - smallVal) >= (0 - smallVal) && base != 0 && small != smallVal)			
-//		{
-//			int tmp = (base + small) - smallVal;
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '2';
-//				transfusion(baseVal, bigVal, smallVal, tmp, big, smallVal, inc + 1, disVal);
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '2';
-//				transfusion(baseVal, bigVal, smallVal, 0, big, small + base, inc + 1, disVal);
-//			}
-//		}
-////-----------------------------------------------FROM BIG TO BASE(3)---------------------------------------------------------------
-//		if ((big + base - baseVal) <= baseVal && (big + base - baseVal) >= (0 - baseVal) && big != 0 && base != baseVal)
-//		{
-//			int tmp = (big + base - baseVal);
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '3';
-//				transfusion(baseVal, bigVal, smallVal, baseVal, tmp, small, inc + 1, disVal);
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '3';
-//				transfusion(baseVal, bigVal, smallVal, base+big, 0, small, inc + 1, disVal);
-//			}
-//
-//		}
-////-----------------------------------------------FROM BIG TO SMALL(4)--------------------------------------------------------------
-//		if ((big + small - smallVal) <= smallVal && (big + small - smallVal) >= (0 - smallVal) && big != 0)// && small != smallVal)
-//		{
-//			int tmp = (big + small - smallVal);
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '4';
-//				transfusion(baseVal, bigVal, smallVal, base, tmp, smallVal, inc + 1, disVal);				
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '4';
-//				transfusion(baseVal, bigVal, smallVal, base, 0, small + big, inc + 1, disVal);				
-//			}
-//			
-//		}
-////----------------------------------------------FROM SMALL TO BASE(5)--------------------------------------------------------------
-//		if ((small + base - baseVal) <= baseVal && (small + base - baseVal) >= (0 - baseVal) && small != 0 && base != baseVal)
-//		{
-//			int tmp = (small + base - baseVal);
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '5';
-//				transfusion(baseVal, bigVal, smallVal, baseVal, big, tmp, inc + 1, disVal);
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '5';
-//				transfusion(baseVal, bigVal, smallVal, base + small, big, 0, inc + 1, disVal);
-//			}
-//
-//		}
-////-----------------------------------------------FROM SMALL TO BIG(6)---------------------------------------------------------------
-//		if ((small + big - bigVal) <= bigVal && (small + big - bigVal) >= (0 - bigVal) && small != 0 && big != bigVal)
-//		{
-//			int tmp = (small + big - bigVal);
-//			if (tmp > 0)
-//			{
-//				tran.trans[inc] = '6';
-//				transfusion(baseVal, bigVal, smallVal, base, bigVal, tmp, inc + 1, disVal);
-//			}
-//			else
-//			{
-//				tran.trans[inc] = '6';
-//				transfusion(baseVal, bigVal, smallVal, base, big + small, 0, inc + 1, disVal);
-//			}
-//		}
-//	}
-//	else
-//	{
-//		//printf("\nРешения нет\n");
-//	}
-//
-//	//printf("AAA %d\t%d\t%d|\t%d\t%d\t%d|\t%d\t|%d\t\n", baseVal, bigVal, smallVal, base, big, small, inc, disVal);
-//}
-
+//----------------------------------------РАСПРЕДЕЛЯЕМ ОБЪЁМЫ СОСУДОВ-----------------------------------------
 void arrangement(const int first, const int second, const int third, int* base, int* big, int* small)
 {
 	if (first > second)
@@ -232,41 +54,53 @@ void arrangement(const int first, const int second, const int third, int* base, 
 	}
 }
 
+//----------------------------------------------------------УЗНАЁМ ОБЪЁМЫ СОСУДОВ----------------------------------------------------
+
+void get_vessel_volumes(int *first, int *second, int *third)
+{
+	do {
+		printf("Размеры сосудов не должны быть равными!\n\nВведите объём первого сосуда: ");
+		scanf_s("%d", first);
+		printf("Введите объём второго сосуда: ");
+		scanf_s("%d", second);
+		printf("Введите объём третьего сосуда: ");
+		scanf_s("%d", third);
+	} while (first == second || second == third || first == third);
+}
+
+//-----------------------------------------------------УЗНАЁМ ИСКОМОЕ КОЛИЧЕСТВО ЛИТРОВ----------------------------------------------
+
+void get_liters(const int *base, int* disVal)
+{
+	do
+	{
+		printf("Искомое количество литров не может быть больше объёма базового сосуда!\nОбъём базового сосуда: %d\n", *base);
+		printf("Введите искомое количество литров: ");
+		scanf_s("%d", disVal);
+	} while (*disVal > *base);
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
+
 	int first = 0, second = 0, third = 0;
-	do {
 
-		printf("Размеры сосудов не должны быть равными!\n\nВведите объём первого сосуда: ");
-		scanf_s("%d", &first);
-		printf("Введите объём второго сосуда: ");
-		scanf_s("%d", &second);
-		printf("Введите объём третьего сосуда: ");
-		scanf_s("%d", &third);
-	} while (first == second || second == third || first == third);
-
+	get_vessel_volumes(&first, &second, &third);
 
 	int base = 0, big = 0, small = 0;
 
 	arrangement(first, second, third, &base, &big, &small);
 
-	//int first = 8, second = 5, third = 3;
-	//int first = 12, second = 8, third = 5;
-
 	printf("base: %d, big: %d, small: %d\n", base, big, small);
 
 	int disVal = 0;
-	do
-	{
-		printf("Искомое количество литров не может быть больше объёма базового сосуда!\nОбъём базового сосуда: %d\n", base);
-		printf("Введите искомое количество литров: ");
-		scanf_s("%d", &disVal);
-	} while (disVal > base);
-	int inc = 0;
+
+	get_liters(&base, &disVal);
+
 	if (base == disVal)
 	{
-		printf("\nИскомое значение(%d) оказалось в базавом сосуде, через %d переливаний\n", base, inc);
+		printf("\nИскомое значение(%d) оказалось в базавом сосуде, через 0 переливаний\n", base);
 	}
 	else
 	{

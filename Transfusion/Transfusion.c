@@ -4,13 +4,11 @@
 
 #define MAX_NUM_OF_TRAN 20
 
-transf tran;
-
 int steps = 1;
 
 
 //------------------------------------------сякнбхъ гюбепьемхъ опнцпюллш----------------------------------------------------------
-char isStop(int base, int big, int small, int inc, const int disVal)
+char isStop(int base, int big, int small, const int disVal)
 {
 	if (base == disVal)
 	{
@@ -60,12 +58,12 @@ void print_result(char oper)
 		break;
 	default:
 		printf("ERROR: %d\t", oper);
-		break;		
+		break;
 	}
 }
 
 //------------------------------------------------FROM BASE TO BIG(1)-------------------------------------------------------------
-void base_to_big(const int baseVal, const int bigVal, int *base, int* big, int inc)
+void base_to_big(const int baseVal, const int bigVal, int* base, int* big)
 {
 	if ((*base + *big - bigVal) <= bigVal && (*base + *big - bigVal) >= (0 - bigVal) && *base != 0 && *big != bigVal)
 	{
@@ -77,7 +75,6 @@ void base_to_big(const int baseVal, const int bigVal, int *base, int* big, int i
 		}
 		else
 		{
-			tran.trans[inc] = '1';
 			*big = *big + *base;
 			*base = 0;
 		}
@@ -85,7 +82,7 @@ void base_to_big(const int baseVal, const int bigVal, int *base, int* big, int i
 }
 
 //----------------------------------------------FROM BASE TO SMALL(2)-------------------------------------------------------------
-void base_to_small(const int baseVal, const int smallVal, int *base, int *small, const int disVal, int inc)
+void base_to_small(const int baseVal, const int smallVal, int* base, int* small, const int disVal)
 {
 	if ((*base + *small - smallVal) >= (0 - smallVal) && *base != 0 && *small != smallVal)
 	{
@@ -97,13 +94,11 @@ void base_to_small(const int baseVal, const int smallVal, int *base, int *small,
 		}
 		else if (tmp > 0)
 		{
-			tran.trans[inc] = '2';
 			*base = tmp;
 			*small = smallVal;
 		}
 		else
 		{
-			tran.trans[inc] = '2';
 			*small = *small + *base;
 			*base = 0;
 		}
@@ -111,58 +106,56 @@ void base_to_small(const int baseVal, const int smallVal, int *base, int *small,
 }
 
 //-----------------------------------------------FROM BIG TO BASE(3)---------------------------------------------------------------
-void big_to_base(const int baseVal, const int bigVal, int *base, int *big, int inc)
+void big_to_base(const int baseVal, const int bigVal, int* base, int* big)
 {
-		if ((*big + *base - baseVal) <= baseVal && (*big + *base - baseVal) >= (0 - baseVal) && *big != 0 && *base != baseVal)
+	if ((*big + *base - baseVal) <= baseVal && (*big + *base - baseVal) >= (0 - baseVal) && *big != 0 && *base != baseVal)
+	{
+		int tmp = (*big + *base - baseVal);
+		if (tmp > 0)
 		{
-			int tmp = (*big + *base - baseVal);
-			if (tmp > 0)
-			{
-				tran.trans[inc] = '3';
-				*base = baseVal;
-				*big = tmp;
-			}
-			else
-			{
-				tran.trans[inc] = '3';
-				*base = *base + *big;
-				*big = 0;
-			}
-
+			*base = baseVal;
+			*big = tmp;
 		}
+		else
+		{
+
+			*base = *base + *big;
+			*big = 0;
+		}
+
+	}
 }
 
 //-----------------------------------------------FROM BIG TO SMALL(4)--------------------------------------------------------------
-void big_to_small(const int bigVal, const int smallVal, int *big, int *small, const int disVal, int inc)
+void big_to_small(const int bigVal, const int smallVal, int* big, int* small, const int disVal)
 {
 	if ((*big + *small - smallVal) >= (0 - smallVal) && *big != 0)
 	{
-			int tmp = (*big + *small - smallVal);
-			if (tmp > smallVal)
-			{
-				tran.trans[inc] = '4';
-				*big = tmp;
-				*small = smallVal;
+		int tmp = (*big + *small - smallVal);
+		if (tmp > smallVal)
+		{
 
-			}
-			else if (tmp > 0)
-			{
-				tran.trans[inc] = '4';
-				*big = tmp;
-				*small = smallVal;		
-			}
-			else
-			{
-				tran.trans[inc] = '4';
-				*small = *small + *big;
-				*big = 0;			
-			}
-			
+			*big = tmp;
+			*small = smallVal;
+
+		}
+		else if (tmp > 0)
+		{
+			*big = tmp;
+			*small = smallVal;
+		}
+		else
+		{
+
+			*small = *small + *big;
+			*big = 0;
+		}
+
 	}
 }
 
 //----------------------------------------------FROM SMALL TO BASE(5)--------------------------------------------------------------
-void small_to_base(const int baseVal, const int smallVal, int *base, int *small, const int disVal, int inc)
+void small_to_base(const int baseVal, const int smallVal, int* base, int* small, const int disVal)
 {
 
 	if ((*small + *base - baseVal) <= baseVal && (*small + *base - baseVal) >= (0 - baseVal) && *small != 0 && *base != baseVal)
@@ -170,13 +163,11 @@ void small_to_base(const int baseVal, const int smallVal, int *base, int *small,
 		int tmp = (*small + *base - baseVal);
 		if (tmp > 0)
 		{
-			tran.trans[inc] = '5';
 			*base = baseVal;
 			*small = tmp;
 		}
 		else
 		{
-			tran.trans[inc] = '5';
 			*base = *base + *small;
 			*small = 0;
 		}
@@ -186,20 +177,18 @@ void small_to_base(const int baseVal, const int smallVal, int *base, int *small,
 
 //-----------------------------------------------FROM SMALL TO BIG(6)---------------------------------------------------------------
 
-void small_to_big(const int bigVal, const int smallVal, int* big, int* small, const int disVal, int inc)
+void small_to_big(const int bigVal, const int smallVal, int* big, int* small, const int disVal)
 {
 	if ((*small + *big - bigVal) <= bigVal && (*small + *big - bigVal) >= (0 - bigVal) && *small != 0 && *big != bigVal)
 	{
 		int tmp = (*small + *big - bigVal);
 		if (tmp > 0)
 		{
-			tran.trans[inc] = '6';
 			*big = bigVal;
 			*small = tmp;
 		}
 		else
 		{
-			tran.trans[inc] = '6';
 			*big = *big + *small;
 			*small = 0;
 		}
@@ -208,37 +197,37 @@ void small_to_big(const int bigVal, const int smallVal, int* big, int* small, co
 
 //------------------------------------------пеьемхе оепбшл яонянанл (вепег анкэьни)------------------------------------------------
 
-void first_way(const int baseVal, const int bigVal, const int smallVal, const int disVal, int base, int big, int small, int* incr)
+void first_way(const int baseVal, const int bigVal, const int smallVal, const int disVal, int base, int big, int small)
 {
-	int inc = *incr;
 
-	while (isStop(base, big, small, inc, disVal) == '1')
+
+	while (isStop(base, big, small, disVal) == '1')
 	{
-		
+
 		if (small == smallVal)
 		{
 			print_result('5');
-			small_to_base(baseVal, smallVal, &base, &small, disVal, inc);
+			small_to_base(baseVal, smallVal, &base, &small, disVal);
 			printf("base: %d, big: %d, small: %d\n", base, big, small);
 		}
 		else
 		{
 			print_result('1');
-			base_to_big(baseVal, bigVal, &base, &big, inc);
+			base_to_big(baseVal, bigVal, &base, &big);
 			printf("base: %d, big: %d, small: %d\n", base, big, small);
 		}
-		if (isStop(base, big, small, inc, disVal) == '1')
+		if (isStop(base, big, small, disVal) == '1')
 		{
 			if (big == 0)
 			{
 				print_result('1');
-				base_to_big(baseVal, bigVal, &base, &big, inc);
+				base_to_big(baseVal, bigVal, &base, &big);
 				printf("base: %d, big: %d, small: %d\n", base, big, small);
 			}
 			else
 			{
 				print_result('4');
-				big_to_small(bigVal, smallVal, &big, &small, disVal, inc);
+				big_to_small(bigVal, smallVal, &big, &small, disVal);
 				printf("base: %d, big: %d, small: %d\n", base, big, small);
 			}
 		}
@@ -247,38 +236,38 @@ void first_way(const int baseVal, const int bigVal, const int smallVal, const in
 
 
 //----------------------------------------пеьемхе брнпншл яонянанл(вепег люкемэйхи)------------------------------------------------
-void second_way(const int baseVal, const int bigVal, const int smallVal, const int disVal, int base, int big, int small, int* incr)
+void second_way(const int baseVal, const int bigVal, const int smallVal, const int disVal, int base, int big, int small)
 {
-	int inc = *incr;
-	while (isStop(base, big, small, inc, disVal) == '1')
-	{		
-		if (small == 0 )
+
+	while (isStop(base, big, small, disVal) == '1')
+	{
+		if (small == 0)
 		{
 			print_result('2');
-			base_to_small(baseVal, smallVal, &base, &small, disVal, inc++);
+			base_to_small(baseVal, smallVal, &base, &small, disVal);
 			printf("base: %d, big: %d, small: %d\n", base, big, small);
 		}
 		else if (big != bigVal)
 		{
 			print_result('6');
-			small_to_big(bigVal, smallVal, &big, &small, disVal, inc++);
+			small_to_big(bigVal, smallVal, &big, &small, disVal);
 			printf("base: %d, big: %d, small: %d\n", base, big, small);
 		}
-		if (isStop(base, big, small, inc, disVal) == '1')
+		if (isStop(base, big, small, disVal) == '1')
 		{
 			if (big == bigVal)
 			{
 				print_result('3');
-				big_to_base(baseVal, bigVal, &base, &big, inc++);
+				big_to_base(baseVal, bigVal, &base, &big);
 				printf("base: %d, big: %d, small: %d\n", base, big, small);
 			}
 			else if (small != 0)
 			{
 				print_result('6');
-				small_to_big(bigVal, smallVal, &big, &small, disVal, inc++);
+				small_to_big(bigVal, smallVal, &big, &small, disVal);
 				printf("base: %d, big: %d, small: %d\n", base, big, small);
 			}
-		}		
+		}
 	}
 }
 
@@ -286,13 +275,12 @@ void trans(const int baseVal, const int bigVal, const int smallVal, const int di
 {
 	int who = 0;
 	int base = baseVal, big = 0, small = 0;
-	static int inc = 0;
 	printf("\nоепбши яоняна:\n\n");
-	first_way(baseVal, bigVal, smallVal, disVal, base, big, small, &inc);
+	first_way(baseVal, bigVal, smallVal, disVal, base, big, small);
 	who = steps;
 	steps = 1;
 	printf("\nбрнпни яоняна:\n\n");
-	second_way(baseVal, bigVal, smallVal, disVal, base, big, small, &inc);
+	second_way(baseVal, bigVal, smallVal, disVal, base, big, small);
 	printf("\n");
 	if (who > steps)
 	{
